@@ -45,8 +45,8 @@ module.exports = {
         ],
       });
 
-    const emojiaddsong = message.client.emoji.addsong;
-    const emojiplaylist = message.client.emoji.playlist;
+    const emojiaddsong = "🎵"; // Replace with the actual emoji
+    const emojiplaylist = "📜"; // Replace with the actual emoji
 
     const player = client.manager.create({
       guild: message.guild.id,
@@ -67,7 +67,6 @@ module.exports = {
           embeds: [
             new MessageEmbed()
               .setColor(client.embedColor)
-            
               .setDescription(i18n.__("player.noplayer")),
           ],
         });
@@ -77,7 +76,7 @@ module.exports = {
       }
     } catch (err) {
       return message.reply(
-        `${client.emoji.wrong} | there was an error while searching: ${err.message}`
+        `${"❌"} | there was an error while searching: ${err.message}`,
       );
     }
     switch (res.loadType) {
@@ -87,8 +86,7 @@ module.exports = {
           embeds: [
             new MessageEmbed()
               .setColor(client.embedColor)
-            
-              .setDescription(`${client.emoji.wrong} | No matches found for - ${search}`),
+              .setDescription(`${"❌"} | No matches found for - ${search}`),
           ],
         });
       case "TRACK_LOADED":
@@ -99,10 +97,8 @@ module.exports = {
         } else {
           const thing = new MessageEmbed()
             .setColor(client.embedColor)
-            
-            
             .setDescription(
-              `${i18n.__("player.addq")}\n[${track.title}](${track?.uri ?? queue.uri}) - \`[${convertTime(track.duration)}]\``
+              `${i18n.__("player.addq")}\n[${track.title}](${track?.uri ?? queue.uri}) - \`[${convertTime(track.duration)}]\``,
             );
           return message.channel.send({ embeds: [thing] });
         }
@@ -114,17 +110,16 @@ module.exports = {
           player.queue.totalSize === res.tracks.length
         )
           player.play();
-        const thing = new MessageEmbed()
+        const playlistEmbed = new MessageEmbed()
           .setColor(client.embedColor)
-
           .setDescription(
             `${i18n.__("player.addlist")}\n${
               res.tracks.length
             } ${i18n.__("player.song")} [${
               res.playlist.name
-            }](${search}) - \`[${convertTime(res.playlist.duration)}]\``
+            }](${search}) - \`[${convertTime(res.playlist.duration)}]\``,
           );
-        return message.channel.send({ embeds: [thing] });
+        return message.channel.send({ embeds: [playlistEmbed] });
       case "SEARCH_RESULT":
         var track = res.tracks[0];
         player.queue.add(track);
@@ -133,10 +128,8 @@ module.exports = {
         } else {
           const thing = new MessageEmbed()
             .setColor(client.embedColor)
-            
-            
             .setDescription(
-              `${i18n.__("player.addq")}\n[${track.title}](${track?.uri ?? queue.uri}) - \`[${convertTime(track.duration)}]\``
+              `${i18n.__("player.addq")}\n[${track.title}](${track?.uri ?? queue.uri}) - \`[${convertTime(track.duration)}]\``,
             );
           return message.channel.send({ embeds: [thing] });
         }
